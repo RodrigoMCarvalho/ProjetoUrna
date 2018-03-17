@@ -1,9 +1,15 @@
 package view;
 
+import modelo.dao.UsuarioDAO;
+import connection.ConnectionFactory;
+import javax.swing.JOptionPane;
+import java.sql.*;
+
 public class TelaLogin extends javax.swing.JFrame {
 
     public TelaLogin() {
         initComponents();
+        getRootPane().setDefaultButton(btnEntrar);
     }
 
     @SuppressWarnings("unchecked")
@@ -61,7 +67,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jLabel2.setText("Senha");
 
-        btnEntrar.setBackground(new java.awt.Color(0, 0, 255));
+        btnEntrar.setBackground(new java.awt.Color(0, 0, 153));
         btnEntrar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnEntrar.setForeground(new java.awt.Color(255, 255, 255));
         btnEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/login.png"))); // NOI18N
@@ -123,11 +129,18 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
 
+        UsuarioDAO dao = new UsuarioDAO();
+
+        //variável check recebe true se existir login e senha compatíveis e false se nao
+        boolean check = dao.logar(txtLogin.getText(), new String(txtSenha.getPassword()));
+        if (check) { //se check for true
+            this.dispose();   //fecha a TelaLogin
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário ou/e senha inválidos!", "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnEntrarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
